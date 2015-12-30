@@ -17,8 +17,9 @@ int main(int argc, char const *argv[])
 		socketClientId = net.listen();
 		if(net.receive(tmp, sizeof(tmp))) {
 			std::string header(tmp);
-			std::cout << "URI: " << HttpHeader::parseURI(header) << std::endl;
-			std::cout << "URL: " << HttpHeader::parseURL(header) << std::endl;
+			URI uri = HttpHeader::parseURI(header);
+			std::cout << "URI: " << uri.getUri() << std::endl;
+			std::cout << "URL: " << uri.getUrl() << std::endl;
 			net.send(socketClientId, "Answer to the client");
 		}
 		net.close(socketClientId);
