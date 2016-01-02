@@ -13,21 +13,24 @@ WebServer::~WebServer() {
 }
 
 void WebServer::requestCatcher() {
-	unsigned int socketClientId;
+	unsigned int socketRequestId;
 	char tmp[1000];
 
 	while(true) {
 		tmp[0] = 0;
-		socketClientId = m_network.listen();
-		if(m_network.receive(tmp, sizeof(tmp))) {
+		std::unique_ptr<Request> request = m_network.listen();
+		if(request->receive(tmp, sizeof(tmp))) {
 			std::string header(tmp);
 			URI uri = HttpHeader::parseURI(header);
-			std::cout << "URI: " << uri.getUri() << std::endl;
-			std::cout << "URL: " << uri.getUrl() << std::endl;
-			m_router->route(uri.getUrl());
-			m_network.send(socketClientId, "Answer to the client");
+
+			if(m_router->route(uri, *request)) {
+				if(!request->isSentBack()) {
+					request->send("");
+				}
+			} else {
+				request->send("<h1>Error 404</h1>");
+			}
 		}
-		m_network.close(socketClientId);
 		std::this_thread::sleep_for(std::chrono::milliseconds(2));
 	}
 }

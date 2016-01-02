@@ -8,6 +8,7 @@
 #include "Network.h"
 #include "URI.h"
 #include "HttpHeader.h"
+#include "Request.h"
 
 class WebServer {
 

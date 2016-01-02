@@ -5,10 +5,12 @@
 #include <arpa/inet.h>
 #include <string.h>
 #include <unistd.h>
+#include <memory>
 #include <stdexcept>
 #include <deque>
 #include <string>
 #include <cassert>
+#include "Request.h"
 
 class Network {
 
@@ -16,17 +18,13 @@ class Network {
 		Network();
 		~Network();
 		void bind(const int port);
-		unsigned int listen();
-		bool receive(char *buffer, unsigned int buffsize);
+		std::unique_ptr<Request> listen();
 		void connect(const char *ipAddr, const int port);
-		void send(unsigned int socketId, std::string data);
-		void close(unsigned int socketId);
 
 	private:
 		void createSocket();
 		int m_socketId;
 		bool m_bound;
-		std::deque<int> m_inputSockets;
 		sockaddr_in m_srcInfo;
 		sockaddr_in m_dstInfo;
 
