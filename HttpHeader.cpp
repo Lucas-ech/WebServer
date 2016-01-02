@@ -1,15 +1,14 @@
 #include "HttpHeader.h"
 
 URI HttpHeader::parseURI(const std::string &header) {
-	std::size_t pos = header.find("GET ");
+	std::regex methodUri("(GET|HEAD|POST|PUT|DELETE|TRACE|OPTIONS|CONNECT|PATCH) ([^ ]+)");
+	std::smatch results;
 
-	if(pos == std::string::npos) {
+	std::regex_search(header, results, methodUri);
+
+	if(results.size() != 3) {
 		throw std::runtime_error("Unable to parse URI");
 	}
 
-	pos += 4; // Ignore "GET "
-
-	std::size_t length = header.find_first_of(" ", pos) - pos;
-
-	return URI(header.substr(pos, length));
+	return URI(results[2]);
 }

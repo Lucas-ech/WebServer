@@ -2,6 +2,7 @@
 #define HTTPHEADER_H
 
 #include <stdexcept>
+#include <regex>
 #include <string>
 #include "URI.h"
 
