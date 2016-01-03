@@ -3,12 +3,14 @@
 #include <thread>
 #include <fstream>
 #include <sstream>
+#include <string>
 #include <functional>
 #include "Request.h"
 #include "Router.h"
 #include "HttpHeader.h"
 #include "WebServer.h"
 #include "URI.h"
+#include "Log.h"
 
 void readFile(std::string file, Request &request) {
 	std::fstream fp(file);
@@ -37,6 +39,7 @@ int main(int argc, char const *argv[])
 	//router.connect("/", std::bind(readFile, "www/index.html", _1));
 	//router.connect("/*", std::bind(readDir, "www/", "/", _1));
 
+	Log::write("Listening to port ", 8080);
 	WebServer(8080, &router);
 
 	return 0;
