@@ -10,6 +10,7 @@
 #include <deque>
 #include <string>
 #include <cassert>
+#include <fcntl.h>
 #include "Request.h"
 
 class Network {
@@ -18,7 +19,7 @@ class Network {
 		Network();
 		~Network();
 		void bind(const int port);
-		std::unique_ptr<Request> listen();
+		bool listen(std::unique_ptr<Request> &request);
 		void connect(const char *ipAddr, const int port);
 
 	private:

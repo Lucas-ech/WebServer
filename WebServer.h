@@ -21,6 +21,7 @@ class WebServer {
 		Network m_network;
 		Router *m_router;
 		std::unique_ptr<std::thread> m_catcher;
+		bool m_done;
 
 };
 
