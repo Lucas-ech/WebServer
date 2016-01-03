@@ -15,11 +15,10 @@ void Router::connect(std::string path, std::function<void(Request&)> function) {
 bool Router::route(Request &request) {
 	auto connection = m_connections.find(request.getUrl());
 	if(connection == m_connections.end()) {
-		std::size_t wildcardPos;
 		for(auto&& route : m_connections) {
+			std::size_t wildcardPos;
 			wildcardPos = route.first.find("*");
 			if(wildcardPos != std::string::npos) {
-				std::string base = route.first.substr(0, wildcardPos);
 				if(route.first.substr(0, wildcardPos) == request.getUrl().substr(0, wildcardPos)) {
 					route.second(request);
 					return true;

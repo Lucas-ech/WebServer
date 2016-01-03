@@ -1,6 +1,6 @@
 #include "Network.h"
 
-Network::Network(): m_bound(false) {
+Network::Network(): m_socketId(0), m_bound(false) {
 
 }
 

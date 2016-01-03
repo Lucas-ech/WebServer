@@ -8,7 +8,7 @@
 class URI {
 
 	public:
-		URI(std::string uri);
+		explicit URI(std::string uri);
 		~URI();
 		std::string getUri() const;
 		std::string getUrl() const;

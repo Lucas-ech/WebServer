@@ -2,8 +2,9 @@
 
 Request::Request(unsigned int socketId, const sockaddr_in &socketInfo) :
 m_socketId(socketId),
-m_sentBack(false) {
-	m_ipAddr = inet_ntoa(socketInfo.sin_addr);
+m_sentBack(false),
+m_ipAddr(inet_ntoa(socketInfo.sin_addr))
+{
 }
 
 Request::~Request() {
