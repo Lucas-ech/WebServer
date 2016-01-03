@@ -11,9 +11,9 @@ class URI {
 		~URI();
 		std::string getHostname();
 		const std::map<std::string, std::string>& getArguments();
-		std::string getUri();
-		std::string getUrl();
-		std::string getUrn();
+		std::string getUri() const;
+		std::string getUrl() const;
+		std::string getUrn() const;
 
 	private:
 		std::string findUrl();

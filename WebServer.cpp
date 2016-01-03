@@ -21,9 +21,10 @@ void WebServer::requestCatcher() {
 		std::unique_ptr<Request> request = m_network.listen();
 		if(request->receive(tmp, sizeof(tmp))) {
 			std::string header(tmp);
-			URI uri = HttpHeader::parseURI(header);
+			std::unique_ptr<URI> uri = HttpHeader::parseURI(header);
+			request->setUri(std::move(uri));
 
-			if(m_router->route(uri, *request)) {
+			if(m_router->route(*request)) {
 				if(!request->isSentBack()) {
 					request->send("");
 				}

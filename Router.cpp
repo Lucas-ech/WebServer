@@ -8,20 +8,20 @@ Router::~Router() {
 
 }
 
-void Router::connect(std::string path, std::function<void(URI&, Request&)> function) {
+void Router::connect(std::string path, std::function<void(Request&)> function) {
 	m_connections[path] = function;
 }
 
-bool Router::route(URI &uri, Request &request) {
-	auto connection = m_connections.find(uri.getUrl());
+bool Router::route(Request &request) {
+	auto connection = m_connections.find(request.getUrl());
 	if(connection == m_connections.end()) {
 		std::size_t wildcardPos;
 		for(auto&& route : m_connections) {
 			wildcardPos = route.first.find("*");
 			if(wildcardPos != std::string::npos) {
 				std::string base = route.first.substr(0, wildcardPos);
-				if(route.first.substr(0, wildcardPos) == uri.getUrl().substr(0, wildcardPos)) {
-					route.second(uri, request);
+				if(route.first.substr(0, wildcardPos) == request.getUrl().substr(0, wildcardPos)) {
+					route.second(request);
 					return true;
 				}
 			}
@@ -29,6 +29,6 @@ bool Router::route(URI &uri, Request &request) {
 		return false;
 	}
 
-	connection->second(uri, request);
+	connection->second(request);
 	return true;
 }

@@ -22,15 +22,15 @@ const std::map<std::string, std::string>& URI::getArguments() {
 	return m_arguments;
 }
 
-std::string URI::getUri() {
+std::string URI::getUri() const {
 	return m_uri;
 }
 
-std::string URI::getUrl() {
+std::string URI::getUrl() const {
 	return m_url;
 }
 
-std::string URI::getUrn() {
+std::string URI::getUrn() const {
 	return m_urn;
 }
 

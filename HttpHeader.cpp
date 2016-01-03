@@ -1,6 +1,6 @@
 #include "HttpHeader.h"
 
-URI HttpHeader::parseURI(const std::string &header) {
+std::unique_ptr<URI> HttpHeader::parseURI(const std::string &header) {
 	std::regex methodUri("(GET|HEAD|POST|PUT|DELETE|TRACE|OPTIONS|CONNECT|PATCH) ([^ ]+)");
 	std::smatch results;
 
@@ -10,5 +10,5 @@ URI HttpHeader::parseURI(const std::string &header) {
 		throw std::runtime_error("Unable to parse URI");
 	}
 
-	return URI(results[2]);
+	return std::unique_ptr<URI>(new URI(results[2]));
 }

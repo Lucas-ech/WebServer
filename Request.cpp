@@ -54,3 +54,15 @@ unsigned int Request::getSocketId() const {
 std::string Request::getIpAddress() const {
 	return m_ipAddr;
 }
+
+void Request::setUri(std::unique_ptr<URI> uri) {
+	m_uri = std::move(uri);
+}
+
+const URI& Request::getUri() const {
+	return *m_uri;
+}
+
+std::string Request::getUrl() const {
+	return m_uri->getUrl();
+}

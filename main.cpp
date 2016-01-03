@@ -10,7 +10,7 @@
 #include "WebServer.h"
 #include "URI.h"
 
-void readFile(std::string file, URI &uri, Request &request) {
+void readFile(std::string file, Request &request) {
 	std::fstream fp(file);
 	if(fp.is_open()) {
 		std::stringstream pubKey;
@@ -23,10 +23,10 @@ void readFile(std::string file, URI &uri, Request &request) {
 	}
 }
 
-void readDir(std::string path, std::string basedir, URI &uri, Request &request) {
-	std::size_t pathBeginPos = uri.getUrl().find(basedir) + basedir.size();
-	std::string file = path + uri.getUrl().substr(pathBeginPos);
-	readFile(file, uri, request);
+void readDir(std::string path, std::string basedir, Request &request) {
+	std::size_t pathBeginPos = request.getUrl().find(basedir) + basedir.size();
+	std::string file = path + request.getUrl().substr(pathBeginPos);
+	readFile(file, request);
 }
 
 int main(int argc, char const *argv[])
@@ -34,8 +34,8 @@ int main(int argc, char const *argv[])
 	using namespace std::placeholders;
 
 	Router router;
-	//router.connect("/", std::bind(readFile, "www/index.html", _1, _2));
-	//router.connect("/*", std::bind(readDir, "www/", "/", _1, _2));
+	//router.connect("/", std::bind(readFile, "www/index.html", _1));
+	//router.connect("/*", std::bind(readDir, "www/", "/", _1));
 
 	WebServer(8080, &router);
 

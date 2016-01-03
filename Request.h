@@ -9,6 +9,8 @@
 #include <unistd.h>
 #include <deque>
 #include <sstream>
+#include <memory>
+#include "URI.h"
 
 class Request {
 
@@ -21,12 +23,16 @@ class Request {
 		bool isSentBack() const;
 		unsigned int getSocketId() const;
 		std::string getIpAddress() const;
+		void setUri(std::unique_ptr<URI> uri);
+		const URI& getUri() const;
+		std::string getUrl() const;
 
 	private:
 		unsigned int m_socketId;
 		bool m_sentBack;
 		std::string m_ipAddr;
 		std::deque<std::string> m_headers;
+		std::unique_ptr<URI> m_uri;
 
 };
 

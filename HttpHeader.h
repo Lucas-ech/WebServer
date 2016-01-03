@@ -4,12 +4,13 @@
 #include <stdexcept>
 #include <regex>
 #include <string>
+#include <memory>
 #include "URI.h"
 
 class HttpHeader {
 
 	public:
-		static URI parseURI(const std::string &header);
+		static std::unique_ptr<URI> parseURI(const std::string &header);
 
 	private:
 

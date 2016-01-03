@@ -12,11 +12,11 @@ class Router {
 	public:
 		Router();
 		~Router();
-		void connect(std::string path, std::function<void(URI&, Request&)> function);
-		bool route(URI &uri, Request &request);
+		void connect(std::string path, std::function<void(Request&)> function);
+		bool route(Request &request);
 
 	private:
-		std::map<std::string, std::function<void(URI&, Request&)>> m_connections;
+		std::map<std::string, std::function<void(Request&)>> m_connections;
 
 };
 
