@@ -31,7 +31,7 @@ void readDir(std::string path, std::string basedir, Request &request) {
 	readFile(file, request);
 }
 
-int main(int argc, char const *argv[])
+int main()
 {
 	using namespace std::placeholders;
 

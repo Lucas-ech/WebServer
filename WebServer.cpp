@@ -13,7 +13,6 @@ WebServer::~WebServer() {
 }
 
 void WebServer::requestCatcher() {
-	unsigned int socketRequestId;
 	char tmp[1000];
 
 	while(true) {
