@@ -21,10 +21,16 @@ bool Request::receive(char *buffer, unsigned int buffsize) {
 }
 
 void Request::send(std::string data, int httpStatus) {
-	//TODO: Simplify
+	using namespace std::literals::string_literals;
+
+	m_headers.push_front("Content-Length: "s + std::to_string(data.size()));
+	m_headers.push_front("HTTP/1.1 "s + std::to_string(httpStatus) + " OK"s);
+
 	std::stringstream headers;
-	headers << "HTTP/1.1 " << httpStatus << " OK\n";
-	headers << m_headers.str() << "\n";
+	for(auto&& header : m_headers) {
+		headers << header << "\n";
+	}
+
 	data.insert(0, headers.str());
 	if(::send(m_socketId, data.c_str(), data.size(), 0) < 0) {
 		throw std::runtime_error("An error occured during sending");
@@ -33,7 +39,8 @@ void Request::send(std::string data, int httpStatus) {
 }
 
 void Request::setHeader(std::string key, std::string value) {
-	m_headers << key << ": " << value << "\n";
+	using namespace std::literals::string_literals;
+	m_headers.push_back(key + ": "s + value + "\n"s);
 }
 
 bool Request::isSentBack() const {

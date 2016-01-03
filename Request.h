@@ -7,6 +7,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <unistd.h>
+#include <deque>
 #include <sstream>
 
 class Request {
@@ -25,7 +26,7 @@ class Request {
 		unsigned int m_socketId;
 		bool m_sentBack;
 		std::string m_ipAddr;
-		std::stringstream m_headers;
+		std::deque<std::string> m_headers;
 
 };
 
