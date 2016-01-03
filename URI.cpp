@@ -24,23 +24,15 @@ std::string URI::getUrn() const {
 }
 
 std::string URI::findUrl() {
-	std::size_t posHash = m_uri.find_first_of("#");
-	std::size_t posInterro = m_uri.find_first_of("?");
+	std::regex url("(.+)(?:\\?|#)");
+	std::smatch results;
 
-	if(posHash == std::string::npos && posInterro == std::string::npos) {
-		return m_uri;
-	}
+	std::regex_search(m_uri, results, url);
 
-	std::size_t firstPos = std::min(posHash, posInterro);
-	if(firstPos == std::string::npos) {
-		if(posHash == std::string::npos) {
-			return m_uri.substr(0, posInterro);
-		} else {
-			return m_uri.substr(0, posHash);
-		}
-	} else {
-		return m_uri.substr(0, firstPos);
+	if(results.size() == 2) {
+		return results[1];
 	}
+	return m_uri;
 }
 
 std::string URI::findUrn() {
