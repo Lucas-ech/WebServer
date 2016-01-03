@@ -11,17 +11,6 @@ URI::~URI() {
 
 }
 
-std::string URI::getHostname() {
-	if(!m_hostname.empty()) {
-		return m_hostname;
-	}
-
-}
-
-const std::map<std::string, std::string>& URI::getArguments() {
-	return m_arguments;
-}
-
 std::string URI::getUri() const {
 	return m_uri;
 }
@@ -56,18 +45,4 @@ std::string URI::findUrl() {
 
 std::string URI::findUrn() {
 	return m_uri.substr(m_url.size());
-}
-
-const std::map<std::string, std::string>& URI::findArguments() {
-	/*std::size_t pos = m_urn.find("?") + 1;
-	std::size_t length;
-	std::string key, value;
-	while(pos != std::string::npos) {
-		length = urn.find_first_of("=");
-		key = urn.substr(pos, length - pos);
-		pos = length;
-
-		length = urn.find_first_of("&");
-		if(length == std::string::npos)
-	}*/
 }
