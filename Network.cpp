@@ -15,7 +15,7 @@ void Network::bind(const int port) {
 	m_srcInfo.sin_family = AF_INET;
 	m_srcInfo.sin_addr.s_addr = INADDR_ANY;
 	m_srcInfo.sin_port = htons(port);
-	if(::bind(m_socketId, (sockaddr*)&m_srcInfo, sizeof(m_srcInfo)) < 0) {
+	if(::bind(m_socketId, reinterpret_cast<sockaddr*>(&m_srcInfo), sizeof(m_srcInfo)) < 0) {
 		throw std::runtime_error("Unable to bind");
 	}
 	m_bound = true;
@@ -28,7 +28,7 @@ std::unique_ptr<Request> Network::listen() {
 	}
 
 	unsigned int srcSize = sizeof(m_srcInfo);
-	int newSocket = ::accept(m_socketId, (sockaddr*)&m_srcInfo, &srcSize);
+	int newSocket = ::accept(m_socketId, reinterpret_cast<sockaddr*>(&m_srcInfo), &srcSize);
 
 	if(newSocket < 0) {
 		throw std::runtime_error("Unable to call accept()");
@@ -42,7 +42,7 @@ void Network::connect(const char *ipAddr, const int port) {
 	m_dstInfo.sin_family = AF_INET;
 	m_dstInfo.sin_addr.s_addr = inet_addr(ipAddr);
 	m_dstInfo.sin_port = htons(port);
-	if(::connect(m_socketId, (sockaddr*)&m_dstInfo, sizeof(m_dstInfo)) < 0) {
+	if(::connect(m_socketId, reinterpret_cast<sockaddr*>(&m_dstInfo), sizeof(m_dstInfo)) < 0) {
 		throw std::runtime_error("Unable to connect");
 	}
 }
