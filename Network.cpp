@@ -19,7 +19,10 @@ void Network::bind(const int port) {
 		throw std::runtime_error("Unable to bind");
 	}
 	m_bound = true;
-	::listen(m_socketId, 1);
+
+	if(::listen(m_socketId, 1) < 0) {
+		throw std::runtime_error("Unable to listen");
+	}
 }
 
 bool Network::listen(std::unique_ptr<Request> &request) {
