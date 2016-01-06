@@ -8,7 +8,9 @@ m_ipAddr(inet_ntoa(socketInfo.sin_addr))
 }
 
 Request::~Request() {
-	::close(m_socketId);
+	if(m_socketId >= 0) {
+		::close(m_socketId);
+	}
 }
 
 bool Request::receive(char *buffer, unsigned int buffsize) {

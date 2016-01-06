@@ -15,7 +15,7 @@
 class Request {
 
 	public:
-		Request(unsigned int socketId, const sockaddr_in &socketInfo);
+		Request(int socketId, const sockaddr_in &socketInfo);
 		~Request();
 		bool receive(char *buffer, unsigned int buffsize);
 		void send(std::string data, int httpStatus = 200);
@@ -28,7 +28,7 @@ class Request {
 		std::string getUrl() const;
 
 	private:
-		unsigned int m_socketId;
+		int m_socketId;
 		bool m_sentBack;
 		std::string m_ipAddr;
 		std::deque<std::string> m_headers;

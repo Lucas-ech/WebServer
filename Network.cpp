@@ -1,11 +1,11 @@
 #include "Network.h"
 
-Network::Network(): m_socketId(0), m_bound(false) {
+Network::Network(): m_socketId(-1), m_bound(false) {
 
 }
 
 Network::~Network() {
-	if(m_bound) {
+	if(m_bound && m_socketId > 0) {
 		::close(m_socketId);
 	}
 }
