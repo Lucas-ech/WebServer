@@ -11,6 +11,7 @@
 #include "WebServer.h"
 #include "URI.h"
 #include "Log.h"
+#include "OpenSSL.h"
 
 void readFile(std::string file, Request &request) {
 	std::fstream fp(file);
@@ -39,8 +40,10 @@ int main()
 	//router.connect("/", std::bind(readFile, "www/index.html", _1));
 	//router.connect("/*", std::bind(readDir, "www/", "/", _1));
 
+	//OpenSSL ssl("cert.pem", "privkey.pem");
+
 	Log::write("Listening to port ", 8080);
-	WebServer(8080, &router);
+	WebServer webserver(8080, &router/*, &ssl*/);
 
 	while(true) {
 		std::this_thread::sleep_for(std::chrono::seconds(1));

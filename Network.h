@@ -3,13 +3,9 @@
 
 #include <sys/socket.h>
 #include <arpa/inet.h>
-#include <string.h>
 #include <unistd.h>
-#include <memory>
 #include <stdexcept>
-#include <deque>
-#include <string>
-#include <cassert>
+#include <tuple>
 #include <fcntl.h>
 #include "Request.h"
 
@@ -19,7 +15,7 @@ class Network {
 		Network();
 		~Network();
 		void bind(const int port);
-		bool listen(std::unique_ptr<Request> &request);
+		bool listen(RequestInfo &requestInfo);
 		void connect(const char *ipAddr, const int port);
 
 	private:

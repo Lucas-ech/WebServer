@@ -25,7 +25,7 @@ void Network::bind(const int port) {
 	}
 }
 
-bool Network::listen(std::unique_ptr<Request> &request) {
+bool Network::listen(RequestInfo &requestInfo) {
 	if(!m_bound) {
 		throw std::logic_error("You need to bind first");
 	}
@@ -42,7 +42,8 @@ bool Network::listen(std::unique_ptr<Request> &request) {
 		throw std::runtime_error("Unable to call accept()");
 	}
 
-	request = std::unique_ptr<Request>(new Request(static_cast<unsigned int>(newSocket), m_srcInfo));
+	requestInfo = std::make_tuple(newSocket, m_srcInfo);
+
 	return true;
 }
 

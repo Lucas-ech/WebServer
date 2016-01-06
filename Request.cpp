@@ -1,9 +1,11 @@
 #include "Request.h"
 
-Request::Request(unsigned int socketId, const sockaddr_in &socketInfo) :
+Request::Request(int socketId, const sockaddr_in socketInfo) :
 m_socketId(socketId),
 m_sentBack(false),
-m_ipAddr(inet_ntoa(socketInfo.sin_addr))
+m_ipAddr(inet_ntoa(socketInfo.sin_addr)),
+m_isHttps(false),
+m_ssl(nullptr)
 {
 }
 
@@ -11,15 +13,22 @@ Request::~Request() {
 	if(m_socketId >= 0) {
 		::close(m_socketId);
 	}
+	if(isHttps()) {
+		SSL_free(m_ssl);
+	}
 }
 
 bool Request::receive(char *buffer, unsigned int buffsize) {
 	int charNumber;
-	charNumber = ::recv(getSocketId(), buffer, buffsize, 0);
-		if(charNumber > 0) {
-			buffer[charNumber] = 0;
-			return true;
-		}
+	if(isHttps()) {
+		charNumber = SSL_read(m_ssl, buffer, buffsize);
+	} else {
+		charNumber = ::recv(getSocketId(), buffer, buffsize, 0);
+	}
+	if(charNumber > 0) {
+		buffer[charNumber] = 0;
+		return true;
+	}
 	return false;
 }
 
@@ -33,10 +42,16 @@ void Request::send(std::string data, int httpStatus) {
 	for(auto&& header : m_headers) {
 		headers << header << "\n";
 	}
-
 	data.insert(0, headers.str());
-	if(::send(m_socketId, data.c_str(), data.size(), 0) < 0) {
-		throw std::runtime_error("An error occured during sending");
+
+	if(isHttps()) {
+    	if(SSL_write(m_ssl, data.c_str(), data.size()) <= 0) {
+			throw std::runtime_error("An error occured during sending");
+    	}
+	} else {
+		if(::send(m_socketId, data.c_str(), data.size(), 0) < 0) {
+			throw std::runtime_error("An error occured during sending");
+		}
 	}
 	m_sentBack = true;
 }
@@ -68,4 +83,18 @@ const URI& Request::getUri() const {
 
 std::string Request::getUrl() const {
 	return m_uri->getUrl();
+}
+
+void Request::setHttps(SSL_CTX *ctx) {
+	m_ssl = SSL_new(ctx);
+	SSL_set_fd(m_ssl, m_socketId);
+
+	if (SSL_accept(m_ssl) <= 0) {
+		throw std::runtime_error("Unable to set request as SSL");
+	}
+	m_isHttps = true;
+}
+
+bool Request::isHttps() const {
+	return m_isHttps;
 }

@@ -2,7 +2,6 @@
 #define URI_H
 
 #include <string>
-#include <map>
 #include <regex>
 
 class URI {
