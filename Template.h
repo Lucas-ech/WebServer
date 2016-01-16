@@ -12,10 +12,10 @@
 class Template {
 
 	public:
-		Template(std::string templateName);
+		explicit Template(std::string templateName);
 		~Template();
 		void bind(std::string variable, std::string value);
-		void bind(const std::map<const std::string, const std::string> values);
+		void bind(const std::map<const std::string, const std::string> &values);
 		std::string getContent() const;
 
 	private:

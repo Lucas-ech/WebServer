@@ -1,7 +1,9 @@
 #include "Template.h"
 
-Template::Template(std::string templateName) {
-	m_template = FileOpener::readAll("templates/" + templateName + ".html");
+Template::Template(std::string templateName) :
+m_template(FileOpener::readAll("templates/" + templateName + ".html"))
+{
+
 }
 
 Template::~Template() {
@@ -16,7 +18,7 @@ void Template::bind(std::string variable, std::string value) {
 	}
 }
 
-void Template::bind(const std::map<const std::string, const std::string> values) {
+void Template::bind(const std::map<const std::string, const std::string> &values) {
 	for(const auto &key : values) {
 		bind(key.first, key.second);
 	}

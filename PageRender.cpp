@@ -12,7 +12,7 @@ void PageRender::setTemplate(const Template &t) {
 	m_content = t.getContent();
 }
 
-void PageRender::setStaticPage(const std::string page) {
+void PageRender::setStaticPage(const std::string &page) {
 	m_content = FileOpener::readAll(page);
 }
 

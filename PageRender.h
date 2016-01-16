@@ -12,7 +12,7 @@ class PageRender {
 		PageRender();
 		~PageRender();
 		void setTemplate(const Template &t);
-		void setStaticPage(const std::string page);
+		void setStaticPage(const std::string &page);
 		std::string getContent() const;
 
 	private:
