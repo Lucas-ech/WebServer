@@ -42,4 +42,43 @@ namespace Http {
 	};
 }
 
+namespace Mime {
+	const std::map<std::string, const char*> Type = {
+		{"html", "text/html; charset=UTF-8"},
+		{"js", "text/javascript"},
+		{"css", "text/css"},
+		{"bin", "application/octet-stream"},
+		{"exe", "application/octet-stream"},
+		{"pdf", "application/pdf"},
+		{"latex", "application/x-latex"},
+		{"sh", "application/x-sh"},
+		{"tex", "application/x-tex"},
+		{"zip", "application/zip"},
+		{"tar", "application/x-tar"},
+		{"wav", "audio/x-wav"},
+		{"gif", "image/gif"},
+		{"jpeg", "image/jpeg"},
+		{"jpg", "image/jpeg"},
+		{"jpe", "image/jpeg"},
+		{"tiff", "image/tiff"},
+		{"tif", "image/tiff"},
+		{"pnm", "image/x-portable-anymap"},
+		{"pbm", "image/x-portable-bitmap"},
+		{"pgm", "image/x-portable-graymap"},
+		{"ppm", "image/x-portable-pixmap"},
+		{"txt", "text/plain"},
+		{"etx", "text/x-setext"},
+		{"mpeg", "video/mpeg"},
+		{"mpg", "video/mpeg"},
+		{"mpe", "video/mpeg"},
+		{"mp3", "audio/mp3"},
+		{"mp4", "flac/mp4"},
+		{"flac", "flac/flac"},
+		{"qt", "video/quicktime"},
+		{"mov", "video/quicktime"},
+		{"avi", "video/x-msvideo"},
+		{"cgi", "magnus-internal/cgi"},
+	};
+}
+
 #endif

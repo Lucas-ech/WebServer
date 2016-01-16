@@ -12,3 +12,12 @@ std::string FileOpener::readAll(std::string filename) {
 
 	return str.str();
 }
+
+std::string FileOpener::getExtension(std::string filename) {
+	std::size_t pos;
+	pos = filename.find_last_of(".");
+	if(pos == std::string::npos) {
+		return "";
+	}
+	return filename.substr(pos + 1);
+}
