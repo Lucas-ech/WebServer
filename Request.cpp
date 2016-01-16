@@ -10,12 +10,7 @@ m_ssl(nullptr)
 }
 
 Request::~Request() {
-	if(m_socketId >= 0) {
-		::close(m_socketId);
-	}
-	if(isHttps()) {
-		SSL_free(m_ssl);
-	}
+	close();
 }
 
 bool Request::receive(char *buffer, unsigned int buffsize) {
@@ -36,7 +31,7 @@ void Request::send(std::string data, int httpStatus) {
 	using namespace std::literals::string_literals;
 
 	m_headers.push_front("Content-Length: "s + std::to_string(data.size()));
-	m_headers.push_front("HTTP/1.1 "s + std::to_string(httpStatus) + " OK"s);
+	m_headers.push_front("HTTP/1.1 "s + std::string(Http::Status.at(httpStatus)));
 
 	std::stringstream headers;
 	for(auto&& header : m_headers) {
@@ -54,6 +49,15 @@ void Request::send(std::string data, int httpStatus) {
 		}
 	}
 	m_sentBack = true;
+}
+
+void Request::close() {
+	if(m_socketId >= 0) {
+		::close(m_socketId);
+	}
+	if(isHttps()) {
+		SSL_free(m_ssl);
+	}
 }
 
 void Request::setHeader(std::string key, std::string value) {
