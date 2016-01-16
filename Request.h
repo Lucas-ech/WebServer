@@ -12,8 +12,11 @@
 #include <deque>
 #include <sstream>
 #include <memory>
+
 #include "URI.h"
 #include "Http.h"
+#include "PageRender.h"
+#include "Template.h"
 
 using RequestInfo = std::tuple<int, sockaddr_in>;
 
@@ -24,6 +27,8 @@ class Request {
 		~Request();
 		bool receive(char *buffer, unsigned int buffsize);
 		void send(std::string data, int httpStatus = 200);
+		void send(const PageRender &page, int httpStatus = 200);
+		void error(int httpStatus);
 		void close();
 		void setHeader(std::string key, std::string value);
 		bool isSentBack() const;

@@ -51,6 +51,21 @@ void Request::send(std::string data, int httpStatus) {
 	m_sentBack = true;
 }
 
+void Request::send(const PageRender &page, int httpStatus) {
+	send(page.getContent(), httpStatus);
+}
+
+
+void Request::error(int httpStatus) {
+	Template t("error");
+	t.bind(
+		{
+			{"errno", std::to_string(httpStatus)}
+		}
+	);
+	send(t.getContent(), httpStatus);
+}
+
 void Request::close() {
 	if(m_socketId >= 0) {
 		::close(m_socketId);
