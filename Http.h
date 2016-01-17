@@ -6,7 +6,7 @@
 #include <iostream>
 
 namespace Http {
-	const std::map<unsigned int, const char*> Status = {
+	const std::map<unsigned int, std::string> Status = {
 		{200, "200 OK"},
 	    {201, "201 Created"},
 	    {202, "202 Accepted"},

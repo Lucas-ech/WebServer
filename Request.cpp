@@ -7,6 +7,8 @@ m_ipAddr(inet_ntoa(socketInfo.sin_addr)),
 m_isHttps(false),
 m_ssl(nullptr)
 {
+	// Setting HTML content as default
+	m_headers.setContentType("text/html");
 }
 
 Request::~Request() {
@@ -30,14 +32,9 @@ bool Request::receive(char *buffer, unsigned int buffsize) {
 void Request::send(std::string data, int httpStatus) {
 	using namespace std::literals::string_literals;
 
-	m_headers.push_front("Content-Length: "s + std::to_string(data.size()));
-	m_headers.push_front("HTTP/1.1 "s + std::string(Http::Status.at(httpStatus)));
-
-	std::stringstream headers;
-	for(auto&& header : m_headers) {
-		headers << header << "\n";
-	}
-	data.insert(0, headers.str());
+	m_headers.setStatus(httpStatus);
+	m_headers.setContentLength(data.length());
+	data.insert(0, m_headers.getHeader());
 
 	if(isHttps()) {
     	if(SSL_write(m_ssl, data.c_str(), data.size()) <= 0) {
@@ -77,8 +74,7 @@ void Request::close() {
 }
 
 void Request::setHeader(std::string key, std::string value) {
-	using namespace std::literals::string_literals;
-	m_headers.push_back(key + ": "s + value + "\n"s);
+	m_headers.setHeader(key, value);
 }
 
 bool Request::isSentBack() const {

@@ -15,6 +15,7 @@
 
 #include "URI.h"
 #include "Http.h"
+#include "HttpHeader.h"
 #include "PageRender.h"
 #include "Template.h"
 #include "Exceptions/Exception.h"
@@ -47,10 +48,10 @@ class Request {
 		int m_socketId;
 		bool m_sentBack;
 		std::string m_ipAddr;
-		std::deque<std::string> m_headers;
 		std::unique_ptr<URI> m_uri;
 		bool m_isHttps;
 		SSL *m_ssl;
+		HttpHeader m_headers;
 
 };
 
