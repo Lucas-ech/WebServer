@@ -1,9 +1,13 @@
 #include "Template.h"
 
-Template::Template(std::string templateName) :
-m_template(FileOpener::readAll("templates/" + templateName + ".html"))
+Template::Template(std::string templateName)
 {
-
+	try {
+		m_template = FileOpener::readAll("templates/" + templateName + ".html");
+	}
+	catch(const std::exception& e) {
+		throw RenderException(e.what());
+	}
 }
 
 Template::~Template() {

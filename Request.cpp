@@ -41,11 +41,11 @@ void Request::send(std::string data, int httpStatus) {
 
 	if(isHttps()) {
     	if(SSL_write(m_ssl, data.c_str(), data.size()) <= 0) {
-			throw std::runtime_error("An error occured during sending");
+			throw NetworkException("An error occured during sending");
     	}
 	} else {
 		if(::send(m_socketId, data.c_str(), data.size(), 0) < 0) {
-			throw std::runtime_error("An error occured during sending");
+			throw NetworkException("An error occured during sending");
 		}
 	}
 	m_sentBack = true;
@@ -63,6 +63,7 @@ void Request::error(int httpStatus) {
 			{"errno", std::to_string(httpStatus)}
 		}
 	);
+	setHeader("Content-Type", "text/html; charset=UTF-8");
 	send(t.getContent(), httpStatus);
 }
 
@@ -109,7 +110,7 @@ void Request::setHttps(SSL_CTX *ctx) {
 	SSL_set_fd(m_ssl, m_socketId);
 
 	if (SSL_accept(m_ssl) <= 0) {
-		throw std::runtime_error("Unable to set request as SSL");
+		throw NetworkException("Unable to set request as SSL");
 	}
 	m_isHttps = true;
 }

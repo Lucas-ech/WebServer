@@ -5,7 +5,9 @@
 #include <regex>
 #include <string>
 #include <memory>
+
 #include "URI.h"
+#include "Exceptions/Exception.h"
 
 class HttpHeader {
 

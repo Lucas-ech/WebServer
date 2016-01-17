@@ -4,6 +4,7 @@
 #include <thread>
 #include <memory>
 #include <tuple>
+
 #include "Router.h"
 #include "Network.h"
 #include "URI.h"
@@ -11,6 +12,7 @@
 #include "Request.h"
 #include "OpenSSL.h"
 #include "Log.h"
+#include "Exceptions/Exception.h"
 
 class WebServer {
 

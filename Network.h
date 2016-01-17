@@ -7,6 +7,8 @@
 #include <stdexcept>
 #include <tuple>
 #include <fcntl.h>
+
+#include "Exceptions/Exception.h"
 #include "Request.h"
 
 class Network {

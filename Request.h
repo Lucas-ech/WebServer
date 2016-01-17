@@ -17,6 +17,7 @@
 #include "Http.h"
 #include "PageRender.h"
 #include "Template.h"
+#include "Exceptions/Exception.h"
 
 using RequestInfo = std::tuple<int, sockaddr_in>;
 

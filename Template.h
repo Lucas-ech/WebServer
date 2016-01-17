@@ -8,6 +8,7 @@
 #include <stdexcept>
 
 #include "FileOpener.h"
+#include "Exceptions/Exception.h"
 
 class Template {
 

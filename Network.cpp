@@ -16,12 +16,12 @@ void Network::bind(const int port) {
 	m_srcInfo.sin_addr.s_addr = INADDR_ANY;
 	m_srcInfo.sin_port = htons(port);
 	if(::bind(m_socketId, reinterpret_cast<sockaddr*>(&m_srcInfo), sizeof(m_srcInfo)) < 0) {
-		throw std::runtime_error("Unable to bind");
+		throw NetworkException("Unable to bind");
 	}
 	m_bound = true;
 
 	if(::listen(m_socketId, 1) < 0) {
-		throw std::runtime_error("Unable to listen");
+		throw NetworkException("Unable to listen");
 	}
 }
 
@@ -39,7 +39,7 @@ bool Network::listen(RequestInfo &requestInfo) {
 		errno = 0;
 		return false;
 	} else if(newSocket < 0) {
-		throw std::runtime_error("Unable to call accept()");
+		throw NetworkException("Unable to call accept()");
 	}
 
 	requestInfo = std::make_tuple(newSocket, m_srcInfo);
@@ -53,14 +53,14 @@ void Network::connect(const char *ipAddr, const int port) {
 	m_dstInfo.sin_addr.s_addr = inet_addr(ipAddr);
 	m_dstInfo.sin_port = htons(port);
 	if(::connect(m_socketId, reinterpret_cast<sockaddr*>(&m_dstInfo), sizeof(m_dstInfo)) < 0) {
-		throw std::runtime_error("Unable to connect");
+		throw NetworkException("Unable to connect");
 	}
 }
 
 void Network::createSocket() {
 	m_socketId = ::socket(AF_INET, SOCK_STREAM, 0);
 	if(m_socketId < 0) {
-		throw std::runtime_error("Socket creation failed");
+		throw NetworkException("Socket creation failed");
 	}
 
 	//Setting listening in no-blocking mode
@@ -69,6 +69,6 @@ void Network::createSocket() {
 
     flags = fcntl(m_socketId, F_GETFL, 0);
     if ((flags & O_NONBLOCK) != O_NONBLOCK) {
-        throw std::runtime_error("Unable to set listening in no-blocking mode");
+        throw NetworkException("Unable to set listening in no-blocking mode");
     }
 }

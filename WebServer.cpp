@@ -25,22 +25,30 @@ void WebServer::requestCatcher() {
 	while(!m_done) {
 		if(m_network.listen(requestInfo)) {
 			std::unique_ptr<Request> request(new Request(std::get<0>(requestInfo), std::get<1>(requestInfo)));
-			if(m_protocol == HTTPS) {
-				request->setHttps(m_ssl->getContext());
-			}
-
-			if(request->receive(buffer, sizeof(buffer))) {
-				std::string header(buffer);
-				std::unique_ptr<URI> uri = HttpHeader::parseURI(header);
-				request->setUri(std::move(uri));
-
-				if(m_router->route(*request)) {
-					if(!request->isSentBack()) {
-						request->send("");
-					}
-				} else {
-					request->send("<h1>Error 404</h1>");
+			try {
+				if(m_protocol == HTTPS) {
+					request->setHttps(m_ssl->getContext());
 				}
+
+				if(request->receive(buffer, sizeof(buffer))) {
+					std::string header(buffer);
+					std::unique_ptr<URI> uri = HttpHeader::parseURI(header);
+					request->setUri(std::move(uri));
+
+					if(m_router->route(*request)) {
+						if(!request->isSentBack()) {
+							request->error(500);
+						}
+					} else {
+						request->error(404);
+					}
+				}
+			} catch(const NetworkException& e) {
+				//Ignoring
+			} catch(const RequestException& e) {
+				//Ignoring
+			} catch(const RenderException& e) {
+				request->error(500);
 			}
 		}
 		std::this_thread::sleep_for(std::chrono::milliseconds(2));
