@@ -24,34 +24,34 @@ using RequestInfo = std::tuple<int, sockaddr_in>;
 
 class Request {
 
-	public:
-		Request(int socketId, const sockaddr_in socketInfo);
-		~Request();
-		bool receive(char *buffer, unsigned int buffsize);
-		void send(std::string data, int httpStatus = 200);
-		void send(const PageRender &page, int httpStatus = 200);
-		void error(int httpStatus);
-		void close();
-		void setHeader(std::string key, std::string value);
-		bool isSentBack() const;
-		unsigned int getSocketId() const;
-		std::string getIpAddress() const;
-		void setUri(std::unique_ptr<URI> uri);
-		const URI& getUri() const;
-		std::string getUrl() const;
-		void setSocketId(unsigned int socketId);
-		void setSocketInfo(const sockaddr_in socketInfo);
-		void setHttps(SSL_CTX *ctx);
-		bool isHttps() const;
+    public:
+        Request(int socketId, const sockaddr_in socketInfo);
+        ~Request();
+        bool receive(char *buffer, unsigned int buffsize);
+        void send(std::string data, int httpStatus = 200);
+        void send(const PageRender &page, int httpStatus = 200);
+        void error(int httpStatus);
+        void close();
+        void setHeader(std::string key, std::string value);
+        bool isSentBack() const;
+        unsigned int getSocketId() const;
+        std::string getIpAddress() const;
+        void setUri(std::unique_ptr<URI> uri);
+        const URI& getUri() const;
+        std::string getUrl() const;
+        void setSocketId(unsigned int socketId);
+        void setSocketInfo(const sockaddr_in socketInfo);
+        void setHttps(SSL_CTX *ctx);
+        bool isHttps() const;
 
-	private:
-		int m_socketId;
-		bool m_sentBack;
-		std::string m_ipAddr;
-		std::unique_ptr<URI> m_uri;
-		bool m_isHttps;
-		SSL *m_ssl;
-		HttpHeader m_headers;
+    private:
+        int m_socketId;
+        bool m_sentBack;
+        std::string m_ipAddr;
+        std::unique_ptr<URI> m_uri;
+        bool m_isHttps;
+        SSL *m_ssl;
+        HttpHeader m_headers;
 
 };
 

@@ -2,9 +2,9 @@
 #define EXCEPTIONTYPE_H
 
 enum class ExceptionType {
-	NetworkException,
-	RenderException,
-	RequestException
+    NetworkException,
+    RenderException,
+    RequestException
 };
 
 #endif

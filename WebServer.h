@@ -16,19 +16,19 @@
 
 class WebServer {
 
-	public:
-		WebServer(unsigned short port, Router *router, OpenSSL *ssl = nullptr);
-		~WebServer();
+    public:
+        WebServer(unsigned short port, Router *router, OpenSSL *ssl = nullptr);
+        ~WebServer();
 
-	private:
-		void requestCatcher();
-		enum Protocol {HTTP, HTTPS};
-		Network m_network;
-		Router *m_router;
-		std::unique_ptr<std::thread> m_catcher;
-		bool m_done;
-		OpenSSL *m_ssl;
-		Protocol m_protocol;
+    private:
+        void requestCatcher();
+        enum Protocol {HTTP, HTTPS};
+        Network m_network;
+        Router *m_router;
+        std::unique_ptr<std::thread> m_catcher;
+        bool m_done;
+        OpenSSL *m_ssl;
+        Protocol m_protocol;
 
 };
 

@@ -8,15 +8,15 @@
 
 class PageRender {
 
-	public:
-		PageRender();
-		~PageRender();
-		void setTemplate(const Template &t);
-		void setStaticPage(const std::string &page);
-		std::string getContent() const;
+    public:
+        PageRender();
+        ~PageRender();
+        void setTemplate(const Template &t);
+        void setStaticPage(const std::string &page);
+        std::string getContent() const;
 
-	private:
-		std::string m_content;
+    private:
+        std::string m_content;
 
 };
 

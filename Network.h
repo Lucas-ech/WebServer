@@ -13,19 +13,19 @@
 
 class Network {
 
-	public:
-		Network();
-		~Network();
-		void bind(const int port);
-		bool listen(RequestInfo &requestInfo);
-		void connect(const char *ipAddr, const int port);
+    public:
+        Network();
+        ~Network();
+        void bind(const int port);
+        bool listen(RequestInfo &requestInfo);
+        void connect(const char *ipAddr, const int port);
 
-	private:
-		void createSocket();
-		int m_socketId;
-		bool m_bound;
-		sockaddr_in m_srcInfo;
-		sockaddr_in m_dstInfo;
+    private:
+        void createSocket();
+        int m_socketId;
+        bool m_bound;
+        sockaddr_in m_srcInfo;
+        sockaddr_in m_dstInfo;
 
 };
 

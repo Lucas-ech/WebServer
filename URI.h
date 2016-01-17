@@ -6,19 +6,19 @@
 
 class URI {
 
-	public:
-		explicit URI(std::string uri);
-		~URI();
-		std::string getUri() const;
-		std::string getUrl() const;
-		std::string getUrn() const;
+    public:
+        explicit URI(std::string uri);
+        ~URI();
+        std::string getUri() const;
+        std::string getUrl() const;
+        std::string getUrn() const;
 
-	private:
-		std::string findUrl();
-		std::string findUrn();
-		std::string m_uri;
-		std::string m_url;
-		std::string m_urn;
+    private:
+        std::string findUrl();
+        std::string findUrn();
+        std::string m_uri;
+        std::string m_url;
+        std::string m_urn;
 
 };
 

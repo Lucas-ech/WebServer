@@ -9,14 +9,14 @@
 
 class Router {
 
-	public:
-		Router();
-		~Router();
-		void connect(std::string path, std::function<void(Request&)> function);
-		bool route(Request &request);
+    public:
+        Router();
+        ~Router();
+        void connect(std::string path, std::function<void(Request&)> function);
+        bool route(Request &request);
 
-	private:
-		std::map<std::string, std::function<void(Request&)>> m_connections;
+    private:
+        std::map<std::string, std::function<void(Request&)>> m_connections;
 
 };
 
