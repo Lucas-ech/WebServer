@@ -21,3 +21,12 @@ std::string FileOpener::getExtension(std::string filename) {
     }
     return filename.substr(pos + 1);
 }
+
+bool FileOpener::isExists(std::string filename) {
+    std::ifstream fp(filename);
+    if (fp.is_open()) {
+        fp.close();
+        return true;
+    }
+    return false;
+}
