@@ -28,7 +28,7 @@ class Request {
         Request(int socketId, const sockaddr_in socketInfo);
         ~Request();
         bool receive(char *buffer, unsigned int buffsize);
-        void send(std::string data, int httpStatus = 200);
+        void send(const std::string &data, int httpStatus = 200);
         void send(const PageRender &page, int httpStatus = 200);
         void error(int httpStatus);
         void close();

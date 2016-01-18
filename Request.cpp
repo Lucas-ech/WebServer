@@ -29,19 +29,20 @@ bool Request::receive(char *buffer, unsigned int buffsize) {
     return false;
 }
 
-void Request::send(std::string data, int httpStatus) {
+void Request::send(const std::string &data, int httpStatus) {
     using namespace std::literals::string_literals;
 
     m_headers.setStatus(httpStatus);
     m_headers.setContentLength(data.length());
-    data.insert(0, m_headers.getHeader());
+
+    std::string request = m_headers.getHeader() + data;
 
     if (isHttps()) {
-        if (SSL_write(m_ssl, data.c_str(), data.size()) <= 0) {
+        if (SSL_write(m_ssl, request.c_str(), request.size()) <= 0) {
             throw NetworkException("An error occured during sending");
         }
     } else {
-        if (::send(m_socketId, data.c_str(), data.size(), 0) < 0) {
+        if (::send(m_socketId, request.c_str(), request.size(), 0) < 0) {
             throw NetworkException("An error occured during sending");
         }
     }
