@@ -16,6 +16,7 @@ class URI {
     private:
         std::string findUrl();
         std::string findUrn();
+        static std::string& clearUri(std::string &uri);
         std::string m_uri;
         std::string m_url;
         std::string m_urn;
