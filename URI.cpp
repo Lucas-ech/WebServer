@@ -24,7 +24,7 @@ std::string URI::getUrn() const {
 }
 
 std::string URI::findUrl() {
-    std::regex url("(.+)(?:\\?|#)");
+    std::regex url("([^?#]+)");
     std::smatch results;
 
     std::regex_search(m_uri, results, url);
