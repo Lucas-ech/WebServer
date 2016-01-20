@@ -4,7 +4,6 @@
 #include <string>
 
 #include "Request.h"
-#include "Log.h"
 
 class RequestHandler {
 

@@ -21,8 +21,6 @@ void RequestHandler::file(std::string file, Request &request) {
 }
 
 void RequestHandler::directory(std::string path, std::string basedir, Request &request) {
-	Log::write("path", path);
-	Log::write("basedir", basedir);
 	std::size_t pathBeginPos = request.getUrl().find(basedir) + basedir.size();
     std::string file = path + request.getUrl().substr(pathBeginPos);
 
