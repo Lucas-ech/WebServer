@@ -9,6 +9,9 @@ HttpHeader::~HttpHeader() {
 }
 
 void HttpHeader::setHeader(std::string key, std::string value) {
+    if (key.empty() || value.empty()) {
+        throw RenderException("Empty field given to setHeader");
+    }
     m_headers[key] = value;
 }
 
@@ -34,16 +37,23 @@ void HttpHeader::setContentType(std::string mime, std::string encoding) {
 
 
 const std::string HttpHeader::getHeader() {
-    using namespace std::literals::string_literals;
-
     std::stringstream header;
-    header << m_status << "\n";
-
-    for (const auto &item : m_headers) {
-        header << item.first << ": " << item.second << "\n";
+    if (m_status.empty() == false) {
+        header << m_status << "\n";
     }
 
-    return header.str() + "\n"s;
+    if (m_headers.size() > 0) {
+        for (const auto &item : m_headers) {
+            header << item.first << ": " << item.second << "\n";
+        }
+    }
+
+    // If there is some data, adds a newline at the end
+    if (header.rdbuf()->in_avail()) {
+        header << "\n";
+    }
+
+    return header.str();
 }
 
 
